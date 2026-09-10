@@ -13,7 +13,19 @@ export default function DashboardPage() {
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [url, setUrl] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const savedLinks = localStorage.getItem("links");
+
+    if (savedLinks) {
+      const parsedLinks = JSON.parse(savedLinks);
+
+      setLinks(parsedLinks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("links", JSON.stringify(links));
+  }, [links]);
 
   function addLink() {
     if (!selectedPlatform || !url) {
