@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import LinkItem from "@/components/LinkItem";
 import { mockUserLinks } from "../data/mockUserLinks";
@@ -12,6 +12,8 @@ export default function DashboardPage() {
 
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [url, setUrl] = useState("");
+
+  useEffect(() => {}, []);
 
   function addLink() {
     if (!selectedPlatform || !url) {
