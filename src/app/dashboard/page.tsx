@@ -1,31 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import LinkItem from "@/components/LinkItem";
-import { mockUserLinks } from "../data/mockUserLinks";
-import { availableLinks } from "../data/availableLinks";
+
+import { mockUserLinks } from "@/data/mockUserLinks";
+import { availableLinks } from "@/data/availableLinks";
 
 export default function DashboardPage() {
   const [links, setLinks] = useState(mockUserLinks);
-
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [url, setUrl] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const savedLinks = localStorage.getItem("links");
 
     if (savedLinks) {
       const parsedLinks = JSON.parse(savedLinks);
-
       setLinks(parsedLinks);
     }
+
+    setLoaded(true);
   }, []);
 
   useEffect(() => {
+    if (!loaded) return;
+
     localStorage.setItem("links", JSON.stringify(links));
-  }, [links]);
+  }, [links, loaded]);
 
   function addLink() {
     if (!selectedPlatform || !url) {
@@ -42,6 +46,7 @@ export default function DashboardPage() {
     };
 
     setLinks([...links, newLink]);
+
     setSelectedPlatform("");
     setUrl("");
   }
@@ -64,6 +69,8 @@ export default function DashboardPage() {
           onDelete={() => removeLink(link.platform)}
         />
       ))}
+
+      <h2>Neue Plattform hinzufügen</h2>
 
       <select
         value={selectedPlatform}

@@ -1,10 +1,10 @@
 export const mockUserLinks = [
   {
-    platform: "Spotify",
+    platform: "spotify",
     url: "https://spotify.com/tim",
   },
   {
-    platform: "Instagram",
+    platform: "instagram",
     url: "https://instagram.com/tim",
   },
 ];

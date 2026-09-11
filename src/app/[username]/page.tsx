@@ -1,13 +1,32 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import LinkButton from "@/components/LinkButton";
-import { mockUserLinks } from "../data/mockUserLinks";
-import { availableLinks } from "../data/availableLinks";
+
+import { availableLinks } from "@/data/availableLinks";
 
 export default function ProfilePage() {
+  const [links, setLinks] = useState<
+    {
+      platform: string;
+      url: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const savedLinks = localStorage.getItem("links");
+
+    if (savedLinks) {
+      setLinks(JSON.parse(savedLinks));
+    }
+  }, []);
+
   return (
-    <main>
+    <main className="flex flex-col gap-4">
       <h1>Tim</h1>
 
-      {mockUserLinks.map((link) => {
+      {links.map((link) => {
         const platform = availableLinks.find(
           (item) => item.id === link.platform,
         );

@@ -1,9 +1,9 @@
-import { availableLinks } from "@/app/data/availableLinks";
+import { availableLinks } from "@/data/availableLinks";
 
 type LinkItemProps = {
   platform: string;
   url: string;
-  onDelete: () => void;
+  onDelete?: () => void;
 };
 
 export default function LinkItem({ platform, url, onDelete }: LinkItemProps) {
@@ -15,7 +15,7 @@ export default function LinkItem({ platform, url, onDelete }: LinkItemProps) {
 
       <p>{url}</p>
 
-      <button onClick={onDelete}>Löschen</button>
+      {onDelete && <button onClick={onDelete}>Löschen</button>}
     </div>
   );
 }
