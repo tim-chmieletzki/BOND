@@ -29,4 +29,10 @@ export const availableLinks = [
     icon: "whatsapp",
     urlPattern: "https://whatsapp.com/",
   },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    icon: "tiktok",
+    urlPattern: "https://tiktoks.com/",
+  },
 ];

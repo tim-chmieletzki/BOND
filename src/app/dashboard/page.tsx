@@ -13,6 +13,7 @@ export default function DashboardPage() {
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [url, setUrl] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [editingPlatform, setEditingPlatform] = useState<string | null>(null);
 
   useEffect(() => {
     const savedLinks = localStorage.getItem("links");
@@ -36,16 +37,30 @@ export default function DashboardPage() {
       return;
     }
 
-    if (links.some((link) => link.platform === selectedPlatform)) {
+    if (links.length >= 5 && !editingPlatform) {
       return;
     }
 
-    const newLink = {
-      platform: selectedPlatform,
-      url,
-    };
+    if (editingPlatform) {
+      setLinks(
+        links.map((link) =>
+          link.platform === editingPlatform ? { ...link, url } : link,
+        ),
+      );
 
-    setLinks([...links, newLink]);
+      setEditingPlatform(null);
+    } else {
+      if (links.some((link) => link.platform === selectedPlatform)) {
+        return;
+      }
+
+      const newLink = {
+        platform: selectedPlatform,
+        url,
+      };
+
+      setLinks([...links, newLink]);
+    }
 
     setSelectedPlatform("");
     setUrl("");
@@ -55,11 +70,19 @@ export default function DashboardPage() {
     setLinks(links.filter((link) => link.platform !== platform));
   }
 
-  return (
-    <main className="flex flex-col items-start gap-4">
-      <h1>Dashboard</h1>
+  function editLink(platform: string) {
+    const linkToEdit = links.find((link) => link.platform === platform);
 
-      <h2>Meine Links</h2>
+    if (!linkToEdit) return;
+
+    setSelectedPlatform(linkToEdit.platform);
+    setUrl(linkToEdit.url);
+    setEditingPlatform(platform);
+  }
+
+  return (
+    <main className="flex flex-col items-start gap-8">
+      <h1>Dashboard</h1>
 
       {links.map((link) => (
         <LinkItem
@@ -67,10 +90,9 @@ export default function DashboardPage() {
           platform={link.platform}
           url={link.url}
           onDelete={() => removeLink(link.platform)}
+          onEdit={() => editLink(link.platform)}
         />
       ))}
-
-      <h2>Neue Plattform hinzufügen</h2>
 
       <select
         value={selectedPlatform}
@@ -97,7 +119,31 @@ export default function DashboardPage() {
         onChange={(e) => setUrl(e.target.value)}
       />
 
-      <button onClick={addLink}>Speichern</button>
+      <button onClick={addLink}>
+        {editingPlatform ? "Änderungen speichern" : "Speichern"}
+      </button>
+      {editingPlatform && (
+        <button
+          onClick={() => {
+            setEditingPlatform(null);
+            setSelectedPlatform("");
+            setUrl("");
+          }}
+        >
+          Abbrechen
+        </button>
+      )}
+      {editingPlatform && (
+        <button
+          onClick={() => {
+            setEditingPlatform(null);
+            setSelectedPlatform("");
+            setUrl("");
+          }}
+        >
+          Abbrechen
+        </button>
+      )}
 
       <Link href="/">Zu Start</Link>
     </main>

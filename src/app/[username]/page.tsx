@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import LinkButton from "@/components/LinkButton";
 
@@ -24,7 +25,7 @@ export default function ProfilePage() {
 
   return (
     <main className="flex flex-col gap-4">
-      <h1>Tim</h1>
+      <h1>Profile Page</h1>
 
       {links.map((link) => {
         const platform = availableLinks.find(
@@ -41,6 +42,8 @@ export default function ProfilePage() {
           />
         );
       })}
+
+      <Link href="/">Zu Start</Link>
     </main>
   );
 }
