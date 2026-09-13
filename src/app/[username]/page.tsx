@@ -44,6 +44,7 @@ export default function ProfilePage() {
       })}
 
       <Link href="/">Zu Start</Link>
+      <Link href="/dashboard">Zu Dashboard</Link>
     </main>
   );
 }
