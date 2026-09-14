@@ -81,71 +81,70 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="flex flex-col items-start gap-8">
-      <h1>Dashboard</h1>
+    <main>
+      <div className="flex flex-col items-start p-4">
+        <h1>Dashboard</h1>
+        {links.map((link) => (
+          <LinkItem
+            key={link.platform}
+            platform={link.platform}
+            url={link.url}
+            onDelete={() => removeLink(link.platform)}
+            onEdit={() => editLink(link.platform)}
+          />
+        ))}
+        <select
+          value={selectedPlatform}
+          onChange={(e) => setSelectedPlatform(e.target.value)}
+        >
+          <option value="">Plattform auswählen</option>
 
-      {links.map((link) => (
-        <LinkItem
-          key={link.platform}
-          platform={link.platform}
-          url={link.url}
-          onDelete={() => removeLink(link.platform)}
-          onEdit={() => editLink(link.platform)}
+          {availableLinks
+            .filter(
+              (availableLink) =>
+                !links.some(
+                  (userLink) => userLink.platform === availableLink.id,
+                ),
+            )
+            .map((link) => (
+              <option key={link.id} value={link.id}>
+                {link.name}
+              </option>
+            ))}
+        </select>
+        <input
+          type="text"
+          placeholder="Profil URL"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
         />
-      ))}
-
-      <select
-        value={selectedPlatform}
-        onChange={(e) => setSelectedPlatform(e.target.value)}
-      >
-        <option value="">Plattform auswählen</option>
-
-        {availableLinks
-          .filter(
-            (availableLink) =>
-              !links.some((userLink) => userLink.platform === availableLink.id),
-          )
-          .map((link) => (
-            <option key={link.id} value={link.id}>
-              {link.name}
-            </option>
-          ))}
-      </select>
-
-      <input
-        type="text"
-        placeholder="Profil URL"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
-
-      <button onClick={addLink}>
-        {editingPlatform ? "Änderungen speichern" : "Speichern"}
-      </button>
-      {editingPlatform && (
-        <button
-          onClick={() => {
-            setEditingPlatform(null);
-            setSelectedPlatform("");
-            setUrl("");
-          }}
-        >
-          Abbrechen
+        <button onClick={addLink}>
+          {editingPlatform ? "Änderungen speichern" : "Speichern"}
         </button>
-      )}
-      {editingPlatform && (
-        <button
-          onClick={() => {
-            setEditingPlatform(null);
-            setSelectedPlatform("");
-            setUrl("");
-          }}
-        >
-          Abbrechen
-        </button>
-      )}
-
-      <Link href="/">Zu Start</Link>
+        {editingPlatform && (
+          <button
+            onClick={() => {
+              setEditingPlatform(null);
+              setSelectedPlatform("");
+              setUrl("");
+            }}
+          >
+            Abbrechen
+          </button>
+        )}
+        {editingPlatform && (
+          <button
+            onClick={() => {
+              setEditingPlatform(null);
+              setSelectedPlatform("");
+              setUrl("");
+            }}
+          >
+            Abbrechen
+          </button>
+        )}
+        <Link href="/">Zu Start</Link>
+      </div>
     </main>
   );
 }
