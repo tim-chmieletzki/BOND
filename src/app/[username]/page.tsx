@@ -24,7 +24,7 @@ export default function ProfilePage() {
   }, []);
 
   return (
-    <main className="flex flex-col p-4 gap-8">
+    <main className="flex flex-col gap-8 p-4">
       <h1>Profile Page</h1>
 
       {links.map((link) => {

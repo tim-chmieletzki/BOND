@@ -82,7 +82,7 @@ export default function DashboardPage() {
 
   return (
     <main>
-      <div className="flex flex-col items-start p-4 gap-8">
+      <div className="flex flex-col items-start gap-8 p-4">
         <h1>Dashboard</h1>
         {links.map((link) => (
           <LinkItem
